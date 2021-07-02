@@ -1143,7 +1143,14 @@ func ValidateStruct(s interface{}) (bool, error) {
 		if err2 != nil {
 
 			// Replace structure name with JSON name if there is a tag on the variable
-			jsonTag := toJSONName(typeField.Tag.Get("json"))
+			//jsonTag := toJSONName(typeField.Tag.Get("json"))
+			var jsonTag string
+			switch valueField.Kind() {
+			case reflect.Slice, reflect.Array:
+
+			default:
+				jsonTag = toJSONName(typeField.Tag.Get("json"))
+			}
 			if jsonTag != "" {
 				switch jsonError := err2.(type) {
 				case Error:
